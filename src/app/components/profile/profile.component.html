@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="ProfileContainer">
     <div class="row">
         <div class="col-6">
@@ -134,32 +135,30 @@
     <ng-container *ngIf="userData && postData" >
         <div class="posts" *ngFor="let post of postData; let i = index">
             <div class="row justify-content-center">
-                <p>{{i}} - {{post}}</p>
-                <div class="col-3">
-                    {{userData.photo}}
+                <div class="col-12">
+                    <p>{{userData.name}} | {{userData.nickname}}</p>
                 </div>
-                <div class="col-9">
-                    <div class="col-12">
-                        <p>{{userData.name}} | {{userData.nickname}}</p>
+                <div class="col-12 m-0">
+                    <ul>
+                        <p>{{post.message}}</p>
+                    </ul>
+                </div>
+                <div class="col-12 m-0" >
+                    <div *ngIf="post.likes.liked">
+                        <i (click)="saveLike(post)" class="fas fa-heart"></i>
                     </div>
-                    <div class="col-12 m-0">
-                        <ul>
-                            <p>{{post.message}}</p>
-                        </ul>
+                    <div  *ngIf="!post.likes.liked">
+                        <i (click)="saveLike(post)" class="far fa-heart"></i>
                     </div>
-                    <div class="col-12 m-0">
-                        <p>{{post.likes.like}}</p>
-                        <ul>
-                            <div *ngIf="post.likes.like">
-                                <i (click)="like(post)" class="fas fa-heart"></i>
-                                <!-- <button class="btn btn-small btn-danger" (click)="like(post)"><i class="fas fa-heart"></i></button> -->
-                            </div>
-                            <div  *ngIf="!post.likes.like">
-                                <i (click)="like(post)" class="far fa-heart"></i>
-                                <!-- <button class="btn btn-small btn-default" (click)="like(post)"><i class="far fa-heart"></i></button> -->
-                            </div>
-                            <p>{{post.comments}}</p>
-                        </ul>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                        <label for="" class="text-white">Commentario</label>
+                        <textarea class="form-control" name="comment" id="comment" cols="30" rows="3" [(ngModel)]="comment"></textarea>
+                        </div>
+                        <button class="btn btn-primary" (click)="saveComment(post)">Commentario</button>
+                    </div>
+                    <div class="list" *ngIf="post.comments.length > 0">
+                        <li *ngFor="let comment of post.comments" class="item-list text-white">{{  comment.message }}</li>
                     </div>
                 </div>
                 <hr>

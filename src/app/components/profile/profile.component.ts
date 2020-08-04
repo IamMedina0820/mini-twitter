@@ -4,8 +4,9 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { PostService } from '../../services/post.service';
 import { User } from '../../interfaces/user';
-import { Post } from '../../interfaces/post';
+import { Post, Like } from '../../interfaces/post';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { Comment } from '../../interfaces/post';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 export class ProfileComponent implements OnInit {
 
   public userData: any;
-  public likes: any = {};
+  public like: Like;
   public uid = '';
   public postData: any;
   public tweetData = {
@@ -27,18 +28,12 @@ export class ProfileComponent implements OnInit {
   public croppedImage: any = '';
   public picture: any;
   public refPost: any;
+  public comment: string;
 
   constructor(  private userService: UserService,
                 private postService: PostService,
                 private authenticationService: AuthenticationService,
                 private angularFireStorage: AngularFireStorage ) {
-
-    this.likes = {
-      like: false,
-      uid: '',
-      user: '',
-      photo: ''
-    };
 
     this.authenticationService.getStatus().subscribe((status) => {
       this.userService.getUser(status).valueChanges().subscribe((data: User) => {
@@ -50,16 +45,19 @@ export class ProfileComponent implements OnInit {
       });
 
       this.postService.getPost(status).valueChanges().subscribe((data) => {
-        console.log(data);
         this.postData = [];
-        this.refPost = [];
         // tslint:disable-next-line: forin
-        for (const key in data) {
-          this.refPost.push(key);
-          this.postData.push(data[key]);
-        }
-        console.log(this.postData);
-        console.log(this.refPost);
+        this.postData = data.map( post => {
+          return { ...post, comments: []}
+        });
+        // Likes comments
+        this.postService.getComments().valueChanges().subscribe( comments => {
+          this.postData.map( post => {
+            post.comments = comments.filter(comment => comment.pid === post.pid )
+          });
+        });
+        this.postData = this.postData.filter( post => post.uid === this.userData.uid);
+        console.log(this.postData)
       });
 
     }, (err) => {
@@ -77,7 +75,13 @@ export class ProfileComponent implements OnInit {
       created: new Date(),
       uid: this.userData.uid,
       pid: '',
-      likes: this.likes
+      likes : {
+        uid: this.userData.uid,
+        userName: this.userData.name,
+        photo: this.userData.photo,
+        liked: false
+      },
+      comments: []
     };
 
     this.postService.createPost(post, this.userData.uid)
@@ -140,21 +144,26 @@ export class ProfileComponent implements OnInit {
       // show message
   }
 
-  like(post) {
-    console.log(post);
-    let validationLike: boolean;
-    if (post.likes.like) {
-      validationLike = false;
-    } else {
-      validationLike = true;
-    }
-    this.likes = {
-      like: validationLike,
+  saveLike(post: Post) {
+    this.like = {
+      liked: post.likes.liked = !post.likes.liked,
       uid: this.userData.uid,
-      user: this.userData.nickname,
+      userName: this.userData.nickname,
       photo: this.userData.photo
     };
-    this.postService.likePost(this.likes, post.pid);
+    this.postService.likePost(this.like, post.pid);
+  }
+
+  saveComment( post: Post) {
+    const comment: Comment = {
+      cid: '',
+      pid: post.pid,
+      message: this.comment,
+      created: new Date(),
+      uid: this.userData.uid,
+      likes : []
+    };
+    this.postService.commentPost(comment);
   }
 
   ngOnInit(): void {

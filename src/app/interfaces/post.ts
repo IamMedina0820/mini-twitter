@@ -1,24 +1,33 @@
 export interface Post {
     message: string;
     created: Date;
-    commets?: {
-        id: number,
-        message: string,
-        created: Date,
-        user: string
-        likes: {
-            user: number,
-            like: boolean,
-        }
-    };
-    likes?: {
-        user: number,
-        like: boolean,
-    };
+    comments?: Comment[];
+    likes: Like;
     uid: string;
     pid: string;
 }
 
+export interface Comment {
+  cid: string;
+  pid: string;
+    message: string;
+    created: Date;
+    uid: string;
+    likes: CommentLike[];
+}
+
+export interface Like {
+  uid: string;
+  userName : string;
+  liked: boolean;
+  photo: string;
+}
+
+export interface CommentLike {
+  uid: string;
+  cid: string;
+  liked: boolean;
+}
 
   // public post = {
   //   message: '',
