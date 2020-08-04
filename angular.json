@@ -13,6 +13,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [ 
+              "@firebase/app", "firebase/app",
+              "@firebase/database",
+              "@firebase/util",
+              "@firebase/component",
+              "@firebase/auth"
+            ],
             "outputPath": "dist/mini-twitter",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -24,6 +31,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/styles.css"
             ],
             "scripts": []

@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #15202b;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.first-color {
+    color: #1da1f2;
+}
+
+.second-color {
+    color: white;
+}
+
+.third-color {
+    color: #8899A6;
+}
+
+.firts-style-button {
+    color: white;
+    background-color: #1da1f2;
+    border-radius: 1.5em;
+}
+
+.second-style-button {
+    color: #1da1f2;
+    background-color: #15202b;
+    border-radius: 1.5em;
+    border-color: #1da1f2;
+}
+
+.second-style-button:hover {
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6,
+b, p {
+    color: white;
+}
+
+.btn {
+    width: 85%;
+}

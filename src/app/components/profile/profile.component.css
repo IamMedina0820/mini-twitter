@@ -1,0 +1,26 @@
+.profilePhoto img {
+    border-radius: 100%;
+    width: 40%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.buttonEdit {
+    margin-top: 20%;
+}
+
+/* .buttonEdit:hover {
+    color: white;
+} */
+
+/* .tweet:hover{
+    color: white;
+} */
+
+i {
+    color: #8899A6;
+}
+
+.posts {
+    border-bottom: 1px solid white;
+}

@@ -1,0 +1,160 @@
+<div class="ProfileContainer">
+    <div class="row">
+        <div class="col-6">
+            <div class="profilePhoto" *ngIf="userData">
+                <img [src]="croppedImage || userData.photo || '../../../assets/twitter-logo.png'" alt="Profile Photo">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="buttonEdit">
+                <button type="button" class="btn second-style-button btn-sm" *ngIf="!changeScreen" (click)="editUser()">Editar Perfil</button>
+                <button type="button" class="btn second-style-button btn-sm" *ngIf="changeScreen" (click)="saveDataUser()">Guardar Información</button>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="!changeScreen">
+        <ng-container *ngIf="userData">
+            <div class="row">
+                <div class="col-12">
+                    <h4>{{userData.name}} {{userData.lastname}}</h4>
+                </div>
+                <div class="col-12">
+                    <p class="third-color mb-4">@{{userData.nickname}}</p>
+                </div>
+                <div class="col-12">
+                    <p class="second-color">{{userData.description}}</p>
+                </div>
+                <div class="col-4">
+                    <a class="second-color mr-3" href="userData.webpage">{{userData.webpage}}</a>
+                </div>
+                <div class="col-4">
+                    <p class="second-color mr-3"><i class="fas fa-map-marker-alt"></i>{{userData.city}},{{userData.country}}</p>
+                </div>
+                <div class="col-4">
+                    <p class="second-color mr-3"><i class="fas fa-birthday-cake"></i>{{userData.born}}</p>
+                </div>
+                <b>1.600</b> <p class="third-color">Seguidores</p> | <b>102</b> <p class="third-color">Seguidos</p>
+            </div>
+            <hr>
+            <div class="Tweet mb-4">
+                <div class="row">
+                    <div class="col-12" *ngIf="!tweetData.flat">
+                        <button type="button" (click)="tweet()" class="btn second-style-button">Tweet</button>
+                    </div>
+                    <div class="col-12 form-group" *ngIf="tweetData.flat">
+                        <textarea class="form-control" [(ngModel)]="tweetData.message" name="message" rows="5"></textarea>
+                    </div>
+                    <div class="col-6" *ngIf="tweetData.flat">
+                        <button type="button" (click)="postTweet()" class="btn second-style-button">¡Tweetear!</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="changeScreen">
+        <form>
+            <div class="row">
+                <div class="col-3">
+                    <input type="file" (change)="fileChangeEvent($event)" />
+                    <image-cropper
+                        [imageChangedEvent]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="4 / 3"
+                        format="png"
+                        (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"
+                    ></image-cropper>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.name" name="name" placeholder="Nombre">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.lastname" name="lastname" placeholder="Apellido">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="date" class="form-control" [(ngModel)]="userData.born" name="born" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.nickname" name="nickname" placeholder="@Nick">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.city" name="city" placeholder="City">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.country" name="country" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.webpage" name="webpage" placeholder="Webpage">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.email" name="email" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="password" class="form-control" [(ngModel)]="userData.password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea class="form-control" name="description" [(ngModel)]="userData.description" placeholder="Descripción" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+    </ng-container>
+    <ng-container *ngIf="userData && postData" >
+        <div class="posts" *ngFor="let post of postData; let i = index">
+            <div class="row justify-content-center">
+                <p>{{i}} - {{post}}</p>
+                <div class="col-3">
+                    {{userData.photo}}
+                </div>
+                <div class="col-9">
+                    <div class="col-12">
+                        <p>{{userData.name}} | {{userData.nickname}}</p>
+                    </div>
+                    <div class="col-12 m-0">
+                        <ul>
+                            <p>{{post.message}}</p>
+                        </ul>
+                    </div>
+                    <div class="col-12 m-0">
+                        <p>{{post.likes.like}}</p>
+                        <ul>
+                            <div *ngIf="post.likes.like">
+                                <button class="btn btn-success" (click)="like(post)">Me gusta</button>
+                            </div>
+                            <div  *ngIf="!post.likes.like">
+                                <button class="btn btn-danger" (click)="like(post)">No te gusta</button>
+                            </div>
+                            <p>{{post.comments}}</p>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,123 @@
+<div class="loginContainer">
+    <div class="container" *ngIf="!changeScreen">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="login-brand first-color">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 login-text">
+                <h1>Mini Twitter</h1>
+            </div>
+            <div class="col-6">
+                <button class="btn firts-style-button" (click)="getChange('signIn')" type="button">Iniciar Sesión</button>
+            </div>
+            <div class="col-6">
+                <button class="btn firts-style-button" (click)="getChange('signUp')" type="button">Registrarme</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="changeScreen === 'signIn'">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="login-brand first-color">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 login-text">
+                <h1>Iniciar Sesión</h1>
+                <br>
+                <form>
+                    <div class="form-group">
+                      <input type="email" class="form-control" [(ngModel)]="userData.email" name="email" placeholder="E-mail">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" [(ngModel)]="userData.password" name="password" placeholder="Password">
+                    </div>
+                    <button class="btn firts-style-button" (click)="login()" type="button">Iniciar Sesión</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="changeScreen === 'signUp'">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="login-brand first-color">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 login-text">
+                <h1>Registro</h1>
+                <br>
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.name" name="name" placeholder="Nombre">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.lastname" name="lastname" placeholder="Apellido">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="date" class="form-control" [(ngModel)]="userData.born" name="born" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.nickname" name="nickname" placeholder="@Nick">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.city" name="city" placeholder="City">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.country" name="country" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.webpage" name="webpage" placeholder="Webpage">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="file" class="form-control" [(ngModel)]="userData.photo" name="photo" placeholder="Photo">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="userData.email" name="email" placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="password" class="form-control" [(ngModel)]="userData.password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea class="form-control" name="description" [(ngModel)]="userData.description" placeholder="Descripción" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn firts-style-button" (click)="register()" type="button">¡Registrarme!</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>

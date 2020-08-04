@@ -1,0 +1,18 @@
+.navbar {
+    border-bottom: 1px solid gray;
+    background-color: #15202b;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: #1da1f2;
+}
+
+.navbar-brand {
+    color: white;
+}
