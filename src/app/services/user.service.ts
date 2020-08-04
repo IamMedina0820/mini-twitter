@@ -21,7 +21,8 @@ export class UserService {
   }
 
   setPhotoUser(uid, photo) {
-    return this.angularFireDatabase.object('/user/' + uid + '/photo/').update(photo);
+    console.log(photo);
+    return this.angularFireDatabase.object('/user/' + uid + '/photo/').set(photo);
   }
 
 }

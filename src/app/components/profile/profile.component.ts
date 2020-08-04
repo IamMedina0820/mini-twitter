@@ -95,12 +95,13 @@ export class ProfileComponent implements OnInit {
 
    saveDataUser() {
      if (this.croppedImage) {
-      const currentPictureId = new Date();
-      const picture = this.angularFireStorage.ref('picture/' + currentPictureId + '.jpg').putString(this.croppedImage, 'data_url');
-      picture.then((result) => {
-        this.picture = this.angularFireStorage.ref('picture' + currentPictureId + '.jpg').getDownloadURL();
-        this.picture.subscribe((pict) => {
-          this.userService.setPhotoUser(this.uid, pict)
+      const currentPictureId = Date.now();
+      const picture = this.angularFireStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.croppedImage, 'data_url');
+      picture.then(() => {
+        this.picture = this.angularFireStorage.ref('pictures' + currentPictureId + '.jpg').getDownloadURL();
+        this.picture.subscribe((p) => {
+          console.log(p);
+          this.userService.setPhotoUser(this.uid, p)
           .then(() => alert('Imagen subida correctamnte'))
           .catch((err) => {
             alert('Error a cargar la imagen');
@@ -111,19 +112,21 @@ export class ProfileComponent implements OnInit {
       .catch((err) => {
         console.log(err);
       });
+     } else {
+       this.userService.editUser(this.userData)
+       .then(() => {
+          alert('Guardado Correctamente');
+       }).catch((err) => {
+        alert('Error al guardar');
+       });
+       this.editUser();
      }
-     this.userService.editUser(this.userData)
-     .then((data) => {
-        alert('Guardado Correctamente');
-     }).catch((err) => {
-      alert('Error al guardar');
-     });
-     this.editUser();
    }
 
    fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
+
   imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
   }

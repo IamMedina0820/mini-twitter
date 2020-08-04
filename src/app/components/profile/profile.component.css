@@ -24,3 +24,25 @@ i {
 .posts {
     border-bottom: 1px solid white;
 }
+
+.webage {
+    text-decoration: revert;
+    color: #1da1f2;
+}
+
+.webage:hover {
+    text-decoration: revert;
+    color: #1da1f2;
+}
+
+.center-follow {
+    text-align: center;
+}
+
+.fas .fa-heart {
+    color: red;
+}
+
+.far .fa-heart {
+    color: transparent;
+}

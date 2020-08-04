@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-6">
             <div class="profilePhoto" *ngIf="userData">
-                <img [src]="croppedImage || userData.photo || '../../../assets/twitter-logo.png'" alt="Profile Photo">
+                <img [src]="croppedImage || userData.photo || 'assets/twitter-logo.png'" alt="Profile Photo">
             </div>
         </div>
         <div class="col-6">
@@ -25,18 +25,25 @@
                     <p class="second-color">{{userData.description}}</p>
                 </div>
                 <div class="col-4">
-                    <a class="second-color mr-3" href="userData.webpage">{{userData.webpage}}</a>
+                    <a class="mr-3" href="userData.webpage">   {{userData.webpage}}</a>
                 </div>
                 <div class="col-4">
-                    <p class="second-color mr-3"><i class="fas fa-map-marker-alt"></i>{{userData.city}},{{userData.country}}</p>
+                    <p class="second-color mr-3"><i class="fas fa-map-marker-alt"></i>   {{userData.city}},{{userData.country}}</p>
                 </div>
                 <div class="col-4">
-                    <p class="second-color mr-3"><i class="fas fa-birthday-cake"></i>{{userData.born}}</p>
+                    <p class="second-color mr-3"><i class="fas fa-birthday-cake"></i>   {{userData.born}}</p>
                 </div>
-                <b>1.600</b> <p class="third-color">Seguidores</p> | <b>102</b> <p class="third-color">Seguidos</p>
             </div>
-            <hr>
-            <div class="Tweet mb-4">
+            <div class="row center-follow">
+                <div class="col-5">
+                    <b>1.600</b><p class="third-color">Seguidores</p>
+                </div>
+                |
+                <div class="col-5">
+                    <b>102</b> <p class="third-color">Seguidos</p>
+                </div>
+            </div>
+            <div class="Tweet mt-4 mb-4">
                 <div class="row">
                     <div class="col-12" *ngIf="!tweetData.flat">
                         <button type="button" (click)="tweet()" class="btn second-style-button">Tweet</button>
@@ -144,10 +151,12 @@
                         <p>{{post.likes.like}}</p>
                         <ul>
                             <div *ngIf="post.likes.like">
-                                <button class="btn btn-success" (click)="like(post)">Me gusta</button>
+                                <i (click)="like(post)" class="fas fa-heart"></i>
+                                <!-- <button class="btn btn-small btn-danger" (click)="like(post)"><i class="fas fa-heart"></i></button> -->
                             </div>
                             <div  *ngIf="!post.likes.like">
-                                <button class="btn btn-danger" (click)="like(post)">No te gusta</button>
+                                <i (click)="like(post)" class="far fa-heart"></i>
+                                <!-- <button class="btn btn-small btn-default" (click)="like(post)"><i class="far fa-heart"></i></button> -->
                             </div>
                             <p>{{post.comments}}</p>
                         </ul>

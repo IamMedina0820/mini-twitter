@@ -5,7 +5,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -21,8 +20,7 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationGuard } from './guards/authentication.guard';
 
 const appRoutes: Routes = [
-  {path: '', component: HomeComponent, pathMatch: 'prefix'},
-  {path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthenticationGuard]},
+  {path: '', component: LoginComponent, pathMatch: 'prefix'},
   {path: 'login', component: LoginComponent, pathMatch: 'full'},
   {path: 'profile', component: ProfileComponent, pathMatch: 'full', canActivate: [AuthenticationGuard]}
 ];
@@ -30,7 +28,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LoginComponent,
     ProfileComponent,
     NavbarComponent
