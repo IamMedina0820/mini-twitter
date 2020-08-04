@@ -16,7 +16,6 @@ export class AuthenticationGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.authenticationService.getStatus().pipe(map((status) => {
-      console.log(status);
       if (status) {
         return true;
       } else {

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { Like, Comment, Post } from '../interfaces/post';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class PostService {
 
   constructor(private angularFireDatabase: AngularFireDatabase) { }
 
-  getPost(user) {
+  getPost(user): AngularFireList<Post> {
     return this.angularFireDatabase.list('/posts/');
   }
 
@@ -25,7 +27,20 @@ export class PostService {
     return this.angularFireDatabase.object('/posts/' + post.id).set(post);
   }
 
-  likePost(likes, pid) {
-    return this.angularFireDatabase.object('/posts/' + pid + '/likes/').set(likes);
+  likePost(like, pid) {
+    return this.angularFireDatabase.object('/posts/' + pid + '/likes/').set(like);
+  }
+
+  commentPost(comment) {
+    comment.cid = this.angularFireDatabase.createPushId();
+    return this.angularFireDatabase.object('/comments/' + comment.cid).set(comment);
+  }
+
+  getLikes(): AngularFireList<Like> {
+    return this.angularFireDatabase.list('/likes/');
+  }
+
+  getComments(): AngularFireList<Comment> {
+    return this.angularFireDatabase.list('/comments/');
   }
 }

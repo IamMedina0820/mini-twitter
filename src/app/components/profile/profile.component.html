@@ -140,16 +140,25 @@
                             <p>{{post.message}}</p>
                         </ul>
                     </div>
-                    <div class="col-12 m-0">
+                    <div class="col-12 m-0" >
                         <p>{{post.likes.like}}</p>
                         <ul>
-                            <div *ngIf="post.likes.like">
-                                <button class="btn btn-success" (click)="like(post)">Me gusta</button>
+                            <div *ngIf="post.likes.liked">
+                                <button class="btn btn-success" (click)="saveLike(post)">Me gusta</button>
                             </div>
-                            <div  *ngIf="!post.likes.like">
-                                <button class="btn btn-danger" (click)="like(post)">No te gusta</button>
+                            <div  *ngIf="!post.likes.liked">
+                                <button class="btn btn-danger" (click)="saveLike(post)">No te gusta</button>
                             </div>
-                            <p>{{post.comments}}</p>
+                            <div class="row">
+                              <div class="form-group col-md-12">
+                                <label for="" class="text-white">Comment</label>
+                                <textarea class="form-control" name="comment" id="comment" cols="30" rows="3" [(ngModel)]="comment"></textarea>
+                              </div>
+                              <button class="btn btn-primary" (click)="saveComment(post)">Comment</button>
+                            </div>
+                            <ul class="list" *ngIf="post.comments.length > 0">
+                              <li *ngFor="let comment of post.comments" class="item-list text-white">{{  comment.message }}</li>
+                            </ul>
                         </ul>
                     </div>
                 </div>
