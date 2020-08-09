@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '@services/user.service';
+import { AuthenticationService } from '@services/authentication.service';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { PostService } from '../../services/post.service';
-import { User } from '../../interfaces/user';
-import { Post, Like } from '../../interfaces/post';
+import { PostService } from '@services/post.service';
+import { User } from '@interfaces/user';
+import { Post, Like } from '@interfaces/post';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Comment } from '../../interfaces/post';
+import { Comment } from '@interfaces/post';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

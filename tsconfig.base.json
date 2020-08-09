@@ -2,8 +2,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "baseUrl": "./src",
+    "outDir": "./dist/out-tsc/app",
+    "paths" : {
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+      "@guards/*": ["app/interfaces/*"],
+      "@shared/*": ["app/components/shared/*"],
+    },
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
