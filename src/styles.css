@@ -42,3 +42,7 @@ b, p {
 .btn {
     width: 85%;
 }
+
+small {
+    color: red;
+}

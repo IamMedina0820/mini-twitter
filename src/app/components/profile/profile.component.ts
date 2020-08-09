@@ -7,6 +7,7 @@ import { User } from '../../interfaces/user';
 import { Post, Like } from '../../interfaces/post';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Comment } from '../../interfaces/post';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { Comment } from '../../interfaces/post';
 })
 export class ProfileComponent implements OnInit {
 
+  public formGroup: FormGroup;
   public userData: any;
   public like: Like;
   public uid = '';
@@ -30,16 +32,19 @@ export class ProfileComponent implements OnInit {
   public refPost: any;
   public comment: string;
 
-  constructor(  private userService: UserService,
-                private postService: PostService,
-                private authenticationService: AuthenticationService,
-                private angularFireStorage: AngularFireStorage ) {
+  constructor(
+    private userService: UserService,
+    private postService: PostService,
+    private authenticationService: AuthenticationService,
+    private angularFireStorage: AngularFireStorage,
+    private formBuilder: FormBuilder) {
 
     this.authenticationService.getStatus().subscribe((status) => {
       this.userService.getUser(status).valueChanges().subscribe((data: User) => {
         this.uid = data.uid;
         this.userData = [];
         this.userData = data;
+        console.log(this.userData);
       }, (err) => {
         console.log(err);
       });
@@ -48,21 +53,38 @@ export class ProfileComponent implements OnInit {
         this.postData = [];
         // tslint:disable-next-line: forin
         this.postData = data.map( post => {
-          return { ...post, comments: []}
+          return { ...post, comments: []};
         });
+
         // Likes comments
         this.postService.getComments().valueChanges().subscribe( comments => {
           this.postData.map( post => {
-            post.comments = comments.filter(comment => comment.pid === post.pid )
+            post.comments = comments.filter(comment => comment.pid === post.pid);
           });
         });
         this.postData = this.postData.filter( post => post.uid === this.userData.uid);
-        console.log(this.postData)
+        console.log(this.postData);
       });
 
     }, (err) => {
       console.log(err);
     });
+
+  }
+
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      born: ['', [Validators.required]],
+      nickname: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      webpage: [''],
+      email: ['', [Validators.required, Validators.email]],
+      description: ['']
+    });
+    console.log(this.formGroup);
   }
 
    tweet() {
@@ -85,7 +107,7 @@ export class ProfileComponent implements OnInit {
     };
 
     this.postService.createPost(post, this.userData.uid)
-    .then((data) => {
+    .then(() => {
       alert('Posteado Correctamente');
     }).catch((err) => {
       alert('Error al Postear');
@@ -99,10 +121,10 @@ export class ProfileComponent implements OnInit {
 
    saveDataUser() {
      if (this.croppedImage) {
-      const currentPictureId = Date.now();
-      const picture = this.angularFireStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.croppedImage, 'data_url');
+      const picture = this.angularFireStorage.ref('pictures/' + this.userData.uid + '.jpg').putString(this.croppedImage, 'data_url');
       picture.then(() => {
-        this.picture = this.angularFireStorage.ref('pictures' + currentPictureId + '.jpg').getDownloadURL();
+        this.picture = this.angularFireStorage.ref(this.userData.uid + '.jpg').getDownloadURL();
+        console.log(this.picture);
         this.picture.subscribe((p) => {
           console.log(p);
           this.userService.setPhotoUser(this.uid, p)
@@ -134,6 +156,7 @@ export class ProfileComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
   }
+
   imageLoaded() {
       // show cropper
   }
@@ -166,7 +189,12 @@ export class ProfileComponent implements OnInit {
     this.postService.commentPost(comment);
   }
 
-  ngOnInit(): void {
+  validateInput(formControl){
+    let validation = false;
+    const control = this.formGroup.get(formControl);
+    if (!control.valid && control.touched) {
+      return validation = true;
+    }
   }
 
 }

@@ -18,7 +18,7 @@ export interface Comment {
 
 export interface Like {
   uid: string;
-  userName : string;
+  userName: string;
   liked: boolean;
   photo: string;
 }

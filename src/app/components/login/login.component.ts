@@ -17,8 +17,8 @@ export class LoginComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private userService: UserService,
               private router: Router
-              ) 
-{ 
+              )
+{
   this.userData = {
     name: '',
     lastname: '',
@@ -33,8 +33,7 @@ export class LoginComponent implements OnInit {
     description: '',
     uid: '',
     photo: ''
-  }
-
+  };
 }
 
   ngOnInit(): void {}

@@ -9,7 +9,7 @@
         <div class="col-6">
             <div class="buttonEdit">
                 <button type="button" class="btn second-style-button btn-sm" *ngIf="!changeScreen" (click)="editUser()">Editar Perfil</button>
-                <button type="button" class="btn second-style-button btn-sm" *ngIf="changeScreen" (click)="saveDataUser()">Guardar Información</button>
+                <button type="button" class="btn second-style-button btn-sm mb-4" *ngIf="changeScreen" (click)="saveDataUser()">Guardar Información</button>
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
         </ng-container>
     </ng-container>
     <ng-container *ngIf="changeScreen">
-        <form>
+        <form [formGroup]="formGroup">
             <div class="row">
                 <div class="col-3">
                     <input type="file" (change)="fileChangeEvent($event)" />
@@ -79,52 +79,54 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.name" name="name" placeholder="Nombre">
+                                <input type="text" class="form-control" [(ngModel)]="userData.name" formControlName="name" placeholder="Nombre" [ngClass]="{'border-danger': validateInput('name')}">
+                                <small *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.lastname" name="lastname" placeholder="Apellido">
+                                <input type="text" class="form-control" [(ngModel)]="userData.lastname" formControlName="lastname" placeholder="Apellido" [ngClass]="{'border-danger': validateInput('lastname')}">
+                                <small *ngIf="formGroup.get('lastname').hasError('required') && formGroup.get('lastname').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="date" class="form-control" [(ngModel)]="userData.born" name="born" placeholder="E-mail">
+                                <input type="date" class="form-control" [(ngModel)]="userData.born" formControlName="born" placeholder="Fecha de Nacimiento" [ngClass]="{'border-danger': validateInput('born')}">
+                                <small *ngIf="formGroup.get('born').hasError('required') && formGroup.get('born').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.nickname" name="nickname" placeholder="@Nick">
+                                <input type="text" class="form-control" [(ngModel)]="userData.nickname" formControlName="nickname" placeholder="@Nick" [ngClass]="{'border-danger': validateInput('nickname')}">
+                                <small *ngIf="formGroup.get('nickname').hasError('required') && formGroup.get('nickname').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.city" name="city" placeholder="City">
+                                <input type="text" class="form-control" [(ngModel)]="userData.city" formControlName="city" placeholder="City" [ngClass]="{'border-danger': validateInput('city')}">
+                                <small *ngIf="formGroup.get('city').hasError('required') && formGroup.get('city').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.country" name="country" placeholder="Country">
+                                <input type="text" class="form-control" [(ngModel)]="userData.country" formControlName="country" placeholder="Country" [ngClass]="{'border-danger': validateInput('country')}">
+                                <small *ngIf="formGroup.get('country').hasError('required') && formGroup.get('country').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.webpage" name="webpage" placeholder="Webpage">
+                                <input type="text" class="form-control" [(ngModel)]="userData.webpage" formControlName="webpage" placeholder="Webpage">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" [(ngModel)]="userData.email" name="email" placeholder="E-mail">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <input type="password" class="form-control" [(ngModel)]="userData.password" name="password" placeholder="Password">
+                                <input type="text" class="form-control" [(ngModel)]="userData.email" formControlName="email" placeholder="E-mail" [ngClass]="{'border-danger': validateInput('email')}">
+                                <small *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">Este campo es requerido</small>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <textarea class="form-control" name="description" [(ngModel)]="userData.description" placeholder="Descripción" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" formControlName="description" [(ngModel)]="userData.description" placeholder="Descripción" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
