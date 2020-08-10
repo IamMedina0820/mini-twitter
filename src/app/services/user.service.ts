@@ -12,12 +12,13 @@ export class UserService {
     return this.angularFireDatabase.object('/user/' + user.uid);
   }
 
-  createUser(user) {
-    return this.angularFireDatabase.object('/user/' + user.uid).set(user);
+  createUser(user, uid) {
+    console.log(user);
+    return this.angularFireDatabase.object('/user/' + uid).set(user);
   }
 
-  editUser(user) {
-    return this.angularFireDatabase.object('/user/' + user.uid).update(user);
+  editUser(user, uid) {
+    return this.angularFireDatabase.object('/user/' + uid).update(user);
   }
 
   setPhotoUser(uid, photo) {

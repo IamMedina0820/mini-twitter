@@ -139,7 +139,8 @@ export class ProfileComponent implements OnInit {
         console.log(err);
       });
      } else {
-       this.userService.editUser(this.userData)
+       const uid = '';
+       this.userService.editUser(this.userData, uid)
        .then(() => {
           alert('Guardado Correctamente');
        }).catch((err) => {

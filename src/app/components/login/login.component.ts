@@ -3,6 +3,7 @@ import { AuthenticationService } from '@services/authentication.service';
 import { UserService } from '@services/user.service';
 import { Router } from '@angular/router';
 import { User } from '@interfaces/user';
+import { FormBuilder, FormGroup, Validators, FormControl, FormControlName } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,69 +12,96 @@ import { User } from '@interfaces/user';
 })
 export class LoginComponent implements OnInit {
 
-  public changeScreen = '';
-  public userData: any;
-  constructor(
-              private authenticationService: AuthenticationService,
-              private userService: UserService,
-              private router: Router
-              )
-{
-  this.userData = {
-    name: '',
-    lastname: '',
-    born: new Date(),
-    nickname: '',
-    email: '',
-    password: '',
-    city: '',
-    country: '',
-    webpage: '',
-    joined: new Date(),
-    description: '',
-    uid: '',
-    photo: ''
+  public formGroup: FormGroup;
+  public changeScreen = false;
+  public alerts = {
+    errors: false,
+    success: false
   };
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {
 }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+  }
 
-  getChange(type: string) {
-    if (type === 'signIn') {
-      this.changeScreen = 'signIn';
-    } else if (type === 'signUp') {
-      this.changeScreen = 'signUp';
-    }
+  addFields() {
+    this.getChangeScreen();
+    this.formGroup.addControl('name', new FormControl('', [Validators.required, Validators.email]));
+    this.formGroup.addControl('lastname', new FormControl('', Validators.required));
+    this.formGroup.addControl('nickname', new FormControl('', Validators.required));
+  }
+
+  subtractFields(){
+    this.getChangeScreen();
+    this.formGroup.removeControl('name');
+    this.formGroup.removeControl('lastname');
+    this.formGroup.removeControl('nickname');
+  }
+
+  getChangeScreen() {
+    this.changeScreen = !this.changeScreen;
   }
 
   login() {
-    this.authenticationService.loginWithEmail(this.userData.email, this.userData.password)
+    const controls = this.formGroup.controls;
+    this.authenticationService.loginWithEmail(controls.email.value, controls.password.value)
     .then((data) => {
-      alert('Logueado Correctamente');
-      this.router.navigate(['profile']);
+      this.alerts.success = true;
+      setTimeout(() => {
+        this.router.navigate(['profile']);
+      }, 3000);
       console.log(data);
     }).catch((err) => {
-      alert('Error al loguearse');
+      this.alerts.errors = true;
+      setTimeout(() => {
+        this.alerts.errors = false;
+      }, 3000);
       console.log(err);
     });
   }
 
   register() {
-    this.authenticationService.registerWithEmail(this.userData.email, this.userData.password)
+    const controls = this.formGroup.controls;
+    this.authenticationService.registerWithEmail(controls.email.value, controls.password.value)
     .then((data) => {
       console.log(data);
-      this.userData.uid = data.user.uid;
-      this.userService.createUser(this.userData)
+      const uid = data.user.uid;
+      this.userService.createUser(controls, uid)
       .then(() => {
-        alert('Registrado Correctamente');
-        this.router.navigate(['profile']);
+        setTimeout(() => {
+          this.router.navigate(['profile']);
+        }, 3000);
       }).catch((err) => {
-        alert('Error al crear');
+        this.alerts.errors = true;
+        setTimeout(() => {
+          this.alerts.errors = false;
+        }, 3000);
       });
     }).catch((err) => {
-      alert('Error al registrarse');
+      this.alerts.errors = true;
+      setTimeout(() => {
+        this.alerts.errors = false;
+      }, 3000);
       console.log(err);
     });
+  }
+
+  validateInput(formControl) {
+    let validation = false;
+    const control = this.formGroup.get(formControl);
+    if (!control.valid && control.touched) {
+      return validation = true;
+    }
   }
 
 }

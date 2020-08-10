@@ -23,6 +23,11 @@ body {
     border-radius: 1.5em;
 }
 
+.firts-style-button:hover {
+    text-decoration: nonesss;
+    color: white;
+}
+
 .second-style-button {
     color: #1da1f2;
     background-color: #15202b;
